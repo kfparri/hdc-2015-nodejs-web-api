@@ -1,4 +1,9 @@
-var express = require('express');
+var express = require('express')
+	mongoose = require('mongoose');
+
+var db = mongoose.connect('mongodb://localhost/bookAPI');
+
+var Book = require('./models/bookModel');
 
 var app = express();
 
@@ -10,14 +15,40 @@ app.use('/api', bookRouter);
 
 bookRouter.route('/Books')
 	.get(function(req, res){
-		var responseJson = {
-			hello: "This is my api",
-			darin: "You suck!"
-		};
-		
-		res.json(responseJson);
+		var query = {};
+	
+		if(req.query.genre)
+		{
+			query.genre = req.query.genre;
+		}
+
+		Book.find(query, function(err,books){
+			if(err){
+				//console.log(err);
+				res.status(500).send(err);
+			}
+			else{
+				res.json(books);
+				console.log("Request Processed");
+				//console.log(books)
+			}
+		});
 	});
 	
+
+bookRouter.route('/Books/:bookId')
+	.get(function(req,res){
+
+		Book.findById(req.params.bookId, function(err,book) {
+			if(err) {
+				res.status(500).send(err);
+			}
+			else {
+				res.json(book);
+				console.log("Request Processed");
+			}
+		});
+	});
 
 app.get('/', function(req, res){
 	res.send('welcome to my api');
