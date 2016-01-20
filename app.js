@@ -1,5 +1,6 @@
 var express = require('express')
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+	bodyParser = require('body-parser');
 
 var db = mongoose.connect('mongodb://localhost/bookAPI');
 
@@ -9,11 +10,21 @@ var app = express();
 
 var port = process.env.PORT || 3000;
 
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json);
+
 var bookRouter = express.Router();
 
 app.use('/api', bookRouter);
 
 bookRouter.route('/Books')
+	.post(function(req,res){
+		var book = new Book(req.body);
+		
+		console.log(book);
+		res.send(book);
+		
+	})
 	.get(function(req, res){
 		var query = {};
 	
