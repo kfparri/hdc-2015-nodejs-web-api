@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.13.3",
-    "gulp": "^3.9.0",
-    "gulp-nodemon": "^2.0.4",
-    "mongoose": "~4.1.7"
+    "express": ">=4.13.3",
+    "gulp": ">=3.9.0",
+    "gulp-nodemon": ">=2.0.4",
+    "mongoose": ">=4.1.7"
   }
 }
